@@ -10,9 +10,9 @@ def main():
     elGamalObject = ElGamal(256)
 
     #Generate ElGamal Key Object
-    print('Generating ElGamal Key Object...')
+    print('Generating ElGamal Key Object...\n')
     elGamalKey = elGamalObject.generate()
-    print('ElGamal Key is generated.')
+    print('ElGamal Key is generated.\n')
 
     key = b'\xf2\x1c\xccw\x13\xb9>\x8e'
 
@@ -21,7 +21,6 @@ def main():
     #Retrieve the private key from the previously created ElGamal key.
     elgamal_private_key = elGamalKey.get_private_key()
 
-    print(elgamal_private_key)
     #Convert the private key to its byte representation.
     elgamal_private_key_encoded = elgamal_private_key.encode('utf-8')
     #Add padding bytes to the private key so that it can be encrypted using Electronic Codebook (ECB) Cipher Mode.
@@ -52,12 +51,19 @@ def main():
 
     letter_text_string = letterText.decode('utf-8')
 
+    print('Encrypting letter...\n')
+
     #Encrypt the text read from the file using ElGamal method.
     letter_cipher_text = elGamalKey.encrypt(letter_text_string, 6)
 
-    letter_plain_text = elGamalKey.decrypt(letter_cipher_text)
+    #Write the cipher text to a file called encypted_letter.txt
+    encrypted_letter_file = open("encrypted_letter.txt", "w")
+    encrypted_letter_file.write(str(letter_cipher_text[0]))
+    encrypted_letter_file.write(",")
+    encrypted_letter_file.write(str(letter_cipher_text[1]))
 
-    print(letter_plain_text)
+    print('Message encrypted successfully\n')
+    print('Encrypted message file created.')
 
 if __name__ == "__main__":
     main()
